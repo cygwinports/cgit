@@ -1,0 +1,11 @@
+--- origsrc/cgit-0.9.0.3/git/Makefile	2012-11-07 17:02:55.800282800 -0600
++++ src/cgit-0.9.0.3/git/Makefile	2012-11-07 17:12:58.844263900 -0600
+@@ -262,7 +262,7 @@ endif
+ 
+ # CFLAGS and LDFLAGS are for the users to override from the command line.
+ 
+-CFLAGS = -g -O2 -Wall
++CFLAGS += -g -O2 -Wall
+ LDFLAGS =
+ ALL_CFLAGS = $(CPPFLAGS) $(CFLAGS)
+ ALL_LDFLAGS = $(LDFLAGS)
