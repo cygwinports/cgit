@@ -1,5 +1,5 @@
 NAME="cgit"
-VERSION=0.9.0.3
+VERSION=0.9.1
 RELEASE=1
 git_v=1.7.4
 CATEGORY="Web"
@@ -7,9 +7,9 @@ SUMMARY="Web frontend for git repositories"
 DESCRIPTION="This is an attempt to create a fast web interface for the git scm,
 using a builtin cache to decrease server io-pressure."
 REQUIRES="highlight sed"
-HOMEPAGE="http://hjemli.net/git/cgit/"
-SRC_URI="http://hjemli.net/git/cgit/snapshot/cgit-${VERSION}.tar.bz2
-         http://hjemli.net/git/git/snapshot/git-${git_v}.tar.bz2"
+HOMEPAGE="http://git.zx2c4.com/cgit/"
+SRC_URI="http://git.zx2c4.com/cgit/snapshot/cgit-${VERSION}.tar.xz
+         https://github.com/git/git/archive/v${git_v}.tar.gz"
 PATCH_URI="01-cygwin.patch  02-highlight3.patch  03-cflags.patch"
 
 CYGPORT_USE_UNSTABLE_API=1
