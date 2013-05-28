@@ -1,16 +1,19 @@
 NAME="cgit"
-VERSION=0.9.1
+VERSION=0.9.2
 RELEASE=1
-git_v=1.7.4
+git_v=1.8.3
 CATEGORY="Web"
 SUMMARY="Web frontend for git repositories"
 DESCRIPTION="This is an attempt to create a fast web interface for the git scm,
 using a builtin cache to decrease server io-pressure."
-REQUIRES="highlight sed"
+REQUIRES="groff highlight sed"
 HOMEPAGE="http://git.zx2c4.com/cgit/"
 SRC_URI="http://git.zx2c4.com/cgit/snapshot/cgit-${VERSION}.tar.xz
-         https://github.com/git/git/archive/v${git_v}.tar.gz"
-PATCH_URI="01-cygwin.patch  02-highlight3.patch  03-cflags.patch"
+         https://git-core.googlecode.com/files/git-${git_v}.tar.gz"
+PATCH_URI="
+	02-highlight3.patch
+	03-cflags.patch
+"
 
 CYGPORT_USE_UNSTABLE_API=1
 src_unpack_hook() {
@@ -21,11 +24,11 @@ src_unpack_hook() {
 src_compile() {
 	lndirs
 	cd ${B}
-	cygmake all
+	cygmake all CGIT_SCRIPT_PATH=/srv/www/cgi-bin CGIT_DATA_PATH=/srv/www/htdocs
 	cygmake -j1 doc
 }
 
 src_install() {
 	cd ${B}
-	cyginstall install-doc
+	cyginstall install-doc CGIT_SCRIPT_PATH=/srv/www/cgi-bin CGIT_DATA_PATH=/srv/www/htdocs
 }
