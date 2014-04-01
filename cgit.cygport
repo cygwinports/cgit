@@ -1,7 +1,7 @@
 NAME="cgit"
-VERSION=0.9.2
+VERSION=0.10.1
 RELEASE=1
-git_v=1.8.3
+git_v=1.9.0
 CATEGORY="Web"
 SUMMARY="Web frontend for git repositories"
 DESCRIPTION="This is an attempt to create a fast web interface for the git scm,
@@ -13,6 +13,7 @@ SRC_URI="http://git.zx2c4.com/cgit/snapshot/cgit-${VERSION}.tar.xz
 PATCH_URI="
 	02-highlight3.patch
 	03-cflags.patch
+	04-cygwin.patch
 "
 
 CYGPORT_USE_UNSTABLE_API=1
@@ -24,11 +25,11 @@ src_unpack_hook() {
 src_compile() {
 	lndirs
 	cd ${B}
-	cygmake all CGIT_SCRIPT_PATH=/srv/www/cgi-bin CGIT_DATA_PATH=/srv/www/htdocs
+	cygmake all prefix=/usr CGIT_SCRIPT_PATH=/srv/www/cgi-bin CGIT_DATA_PATH=/srv/www/htdocs
 	cygmake -j1 doc
 }
 
 src_install() {
 	cd ${B}
-	cyginstall install-doc CGIT_SCRIPT_PATH=/srv/www/cgi-bin CGIT_DATA_PATH=/srv/www/htdocs
+	cyginstall install-doc prefix=/usr CGIT_SCRIPT_PATH=/srv/www/cgi-bin CGIT_DATA_PATH=/srv/www/htdocs
 }
