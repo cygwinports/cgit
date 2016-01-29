@@ -1,15 +1,21 @@
+inherit httpd
+
 NAME="cgit"
-VERSION=0.11.2
+VERSION=0.12
 RELEASE=1
-git_v=2.3.2
+git_v=2.7.0
 CATEGORY="Web"
 SUMMARY="Web frontend for git repositories"
 DESCRIPTION="This is an attempt to create a fast web interface for the git scm,
 using a builtin cache to decrease server io-pressure."
 REQUIRES="groff highlight sed"
 HOMEPAGE="http://git.zx2c4.com/cgit/"
-SRC_URI="http://git.zx2c4.com/cgit/snapshot/cgit-${VERSION}.tar.xz
-         https://github.com/git/git/archive/v${git_v}/git-v${git_v}.tar.gz"
+SRC_URI="
+	http://git.zx2c4.com/cgit/snapshot/cgit-${VERSION}.tar.xz
+	https://github.com/git/git/archive/v${git_v}/git-v${git_v}.tar.gz
+	http://pkgs.fedoraproject.org/cgit/rpms/cgit.git/plain/cgitrc
+	httpd.conf
+"
 PATCH_URI="
 	02-highlight3.patch
 	03-cflags.patch
@@ -25,11 +31,24 @@ src_unpack_hook() {
 src_compile() {
 	lndirs
 	cd ${B}
-	cygmake all prefix=/usr CGIT_SCRIPT_PATH=/srv/www/cgi-bin CGIT_DATA_PATH=/srv/www/htdocs
+	cygmake all \
+		prefix=/usr libdir=/usr/libexec \
+		CGIT_SCRIPT_PATH=/srv/www/cgi-bin \
+		CGIT_DATA_PATH=/usr/share/cgit
 	cygmake -j1 doc
 }
 
 src_install() {
 	cd ${B}
-	cyginstall install-doc prefix=/usr CGIT_SCRIPT_PATH=/srv/www/cgi-bin CGIT_DATA_PATH=/srv/www/htdocs
+	cyginstall install-doc \
+		prefix=/usr libdir=/usr/libexec \
+		CGIT_SCRIPT_PATH=/srv/www/cgi-bin \
+		CGIT_DATA_PATH=/usr/share/cgit
+
+	dohttpdconf ${S}/httpd.conf
+
+	insinto /etc
+	doins ${S}/cgitrc
+
+	make_etc_defaults /etc/cgitrc ${HTTPD_SYSCONFDIR}/cgit.conf
 }
