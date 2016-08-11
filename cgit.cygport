@@ -1,9 +1,9 @@
 inherit httpd
 
 NAME="cgit"
-VERSION=0.12
+VERSION=1.0
 RELEASE=1
-git_v=2.7.0
+git_v=2.8.3
 CATEGORY="Web"
 SUMMARY="Web frontend for git repositories"
 DESCRIPTION="This is an attempt to create a fast web interface for the git scm,
