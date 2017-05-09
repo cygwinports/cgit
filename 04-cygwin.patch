@@ -1,16 +1,17 @@
 --- origsrc/cgit-0.10.1/filter.c	2014-02-27 17:12:08.000000000 -0600
 +++ src/cgit-0.10.1/filter.c	2014-04-01 01:30:25.430311300 -0500
-@@ -20,6 +20,9 @@
+@@ -20,6 +20,10 @@
  #include <lualib.h>
  #include <lauxlib.h>
  #endif
 +#ifdef __CYGWIN__
++#undef WINVER /* defined by luajit luaconf.h */
 +#include <sys/cygwin.h>
 +#endif
  
- static ssize_t (*libc_write)(int fd, const void *buf, size_t count);
- static ssize_t (*filter_write)(struct cgit_filter *base, const void *buf, size_t count) = NULL;
-@@ -49,6 +52,12 @@ void cgit_cleanup_filters(void)
+ static inline void reap_filter(struct cgit_filter *filter)
+ {
+@@ -49,6 +53,12 @@ void cgit_cleanup_filters(void)
  
  void cgit_init_filters(void)
  {
