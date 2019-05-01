@@ -1,9 +1,9 @@
 inherit httpd
 
 NAME="cgit"
-VERSION=1.1
+VERSION=1.2.1
 RELEASE=1
-git_v=2.10.2
+git_v=2.18.0
 CATEGORY="Web"
 SUMMARY="Web frontend for git repositories"
 DESCRIPTION="This is an attempt to create a fast web interface for the git scm,
@@ -18,7 +18,6 @@ SRC_URI="
 "
 PATCH_URI="
 	02-highlight3.patch
-	03-cflags.patch
 	04-cygwin.patch
 "
 
@@ -34,6 +33,7 @@ src_compile() {
 	# we need not just lua but also some modules
 	cygmake all \
 		prefix=/usr libdir=/usr/libexec \
+		CFLAGS="${CFLAGS}" \
 		CGIT_SCRIPT_PATH=/srv/www/cgi-bin \
 		CGIT_DATA_PATH=/usr/share/cgit \
 		LUA_PKGCONFIG=lua
@@ -44,6 +44,7 @@ src_install() {
 	cd ${B}
 	cyginstall install-doc \
 		prefix=/usr libdir=/usr/libexec \
+		CFLAGS="${CFLAGS}" \
 		CGIT_SCRIPT_PATH=/srv/www/cgi-bin \
 		CGIT_DATA_PATH=/usr/share/cgit \
 		LUA_PKGCONFIG=lua
